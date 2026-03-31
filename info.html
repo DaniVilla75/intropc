@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción a la Computación | Program.AR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2d3436;
+            --accent: #0984e3;
+            --bg: #f5f6fa;
+            --card-bg: #ffffff;
+            --text-muted: #636e72;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--primary);
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-weight: 600;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            font-size: 1.5rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .timeline-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .timeline-item {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .image-placeholder {
+            background: #dfe6e9;
+            border-radius: 8px;
+            width: 100%;
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .content h2 {
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .highlight {
+            font-weight: 600;
+            border-left: 3px solid var(--accent);
+            padding-left: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Introducción a la Computación</h1>
+    <p>Hitos que definieron la historia digital</p>
+</header>
+
+<div class="container">
+
+    <section id="babbage" class="timeline-item">
+        <div class="image-placeholder">
+            [Imagen: Máquina analítica de Babbage]
+        </div>
+        <div class="content">
+            <h2>Máquina Analítica de Babbage (1837)</h2>
+            <p>El matemático británico Charles Babbage, al que debe su nombre, la diseñó alrededor de 1837. En esa época, se utilizaban tablas de números con referencias para realizar los cálculos matemáticos sobre funciones trigonométricas y logarítmicas.</p>
+        <p>Babbage se abocó a la tarea de crear una máquina para facilitar la creación de esas tablas y luego sofisticó su diseño para poder realizar funciones analíticas y todo tipo de cálculos, utilizando un formato similar al de los telares de la época.</p>
+        <p>Su diseño contemplaba que la entrada de información se realizara con tarjetas perforadas, distintas unidades que efectuaban cálculos aritméticos y un mecanismo de salida para registrar los resultados, que combinaba el uso de un trazador de curvas y una campana.</p>
+        <p>Por diversos desacuerdos entre su diseñador, la persona que la estaba construyendo y el gobierno de Gran Bretaña, la máquina no se hizo en su época, pero su diseño constituyó el origen de las computadoras creadas años más tarde.</p>
+            
+            <div class="highlight">
+                "Su diseño constituyó el origen de las computadoras creadas años más tarde."
+            </div>
+        </div>
+    </section>
+
+    <section class="timeline-item">
+        <div class="image-placeholder">
+            [Imagen: Retrato de Ada Lovelace]
+        </div>
+        <div class="content">
+            <h2>Ada Lovelace</h2>
+            <p>La matemática británica investigó las ideas de Babbage y creó varios programas para la máquina analítica. Es reconocida universalmente como la <strong>primera programadora</strong> de la historia.</p>
+        </div>
+    </section>
+
+    <section id="hollerith" class="timeline-item">
+        <div class="image-placeholder">
+            [Imagen: Máquina tabuladora de Hollerith]
+        </div>
+        <div class="content">
+            <h2>Máquina Tabuladora de Hollerith (1890)</h2>
+            <p>La máquina tabuladora fue creada por el inventor estadounidense Herman Hollerith en 1890. A diferencia de la máquina analítica de Babbage, pudo concretarse. Se diseñó para procesar mecánicamente los datos del censo que iba a realizarse en Estados Unidos en 1890, ya que el tabulado y análisis de resultados en forma manual del censo anterior-en 1880-había requerido más de siete años.</p>
+        <p>Apenas construida, el gobierno de Estados Unidos aprobó su uso. Esta fue la primera vez que el procesamiento de información de manera mecánica reemplazó exitosamente tareas que previamente se realizaban a mano. Los datos se ingresaban con tarjetas perforadas, que la máquina recopilaba y analizaba para arrojar finalmente resultados significativos.</p>
+        <p>El trabajo posterior de Hollerith sobre la máquina permitió perfeccionarla para realizar tareas más sofisticadas, lo que dio lugar a nuevos avances en el procesamiento de datos. En sociedad con algunas empresas de la época, Hollerith constituyó la compañía Tabulating Recording Company, que más tarde pasó a llamarse International Business Machines, mundialmente conocida como IBM.</p>
+                    
+        </div>
+    </section>
+
+    <section id="colossus" class="timeline-item">
+        <div class="image-placeholder">
+            [Imagen: Computadora Colossus]
+        </div>
+        <div class="content">
+            <h2>Colossus (Segunda Guerra Mundial)</h2>
+            <p>Durante la Segunda Guerra Mundial, distintas unidades del ejército de la Alemania nazi se comunicaban mediante mensajes cifrados. Con el objetivo de descifrarlos, Gran Bretaña desarrolló una serie de computadoras denominadas Colossus.</p>
+        <p>Cada computadora tenía alrededor de 1500 tubos de vacío, leía tarjetas perforadas y podia almacenar valores. Además, era capaz de imprimir la información de salida a través de una máquina de escribir. Estas computadoras ocupaban más de nueve metros cuadrados y, debido a que al encenderlas se corría el riesgo de que se dañaran las válvulas, las solían mantener prendidas.</p>
+        <p>Se construyeron 10 computadoras Colossus pero, debido a que se trataba de un secreto militar, fueron destruidas y no se informó de su existencia y funcionamiento hasta varios años después de concluida la Segunda Guerra.</p>
+        </div>
+    </section>
+
+    <section id="edvac" class="timeline-item">
+        <div class="image-placeholder">
+            [Imagen: John von Neumann junto a la EDVAC]
+        </div>
+        <div class="content">
+            <h2>EDVAC (1946)</h2>
+            <p>EN 1946, el Laboratorio de Investigación Balística de Estados Unidos comenzó a desarrollar la computadora EDVAC (de las siglas del nombre en inglés Electronic Discrete Variable Automatic Computer). La EDVAC pesaba casi 8000 kg, ocupaba una habitación entera y utilizaba un sistema binario para realizar operaciones matemáticas de manera automática.</p>
+        <p>Podía leer y grabar cintas magnéticas, contaba con memoria, reloj, unidad de control y unidad para operaciones aritméticas, entre otros componentes. Fue una de las primeras máquinas en las que se implementó el modelo arquitectónico propuesto por el matemático de origen austrohúngaro John von Neumann, que se sigue utilizando en la gran mayoría de las computadoras modernas.</p>
+        </div>
+    </section>
+
+    <section id="clementina" class="timeline-item">
+        <div class="image-placeholder">
+            [Imagen: Clementina en Argentina]
+        </div>
+        <div class="content">
+            <h2>Clementina (1960)</h2>
+            <p>Clementina fue la primera computadora que llegó a Argentina para ser usada con fines académicos y científicos. Arribó al país en 1960 y se instaló en 1961 en el Instituto de Cálculo de la Facultad de Ciencias Exactas y Naturales, que funcionaba en el Pabellón I de la Ciudad Universitaria de la Universidad de Buenos Aires. Fue adquirida por una licitación pública internacional a través de las gestiones del matemático Manuel Sadosky, considerado el padre de la computación en nuestro país.</p>
+        <p>La computadora, modelo Mercury y fabricada por la compañía Ferranti, fue desarrollada en Gran Bretaña. Medía 18 metros de largo. Se la utilizó en proyectos científicos y tecnológicos, y se mantuvo en funcionamiento hasta 1971, cuando las dificultades para conseguir repuestos provocaron que quedara fuera de servicio. Clementina facilitó la enseñanza de la programación: su adquisición fue fundamental para el desarrollo de la computación en el país y la región.</p>
+        </div>
+    </section>
+
+    <section id="vic20" class="timeline-item">
+        <div class="image-placeholder">
+            [Imagen: Commodore VIC-20]
+        </div>
+        <div class="content">
+            <h2>Commodore VIC-20 (1980)</h2>
+            <p>Con el objetivo de competir con las consolas de videojuegos, en 1980, la empresa Commodore comercializó un modelo de computadora para uso personal. La Commodore VIC-20 fue la primera computadora que alcanzó el millón de ventas.</p>
+        <p>Por sus características técnicas, solo llegó a ejecutar software con propósitos educativos y videojuegos. Sin embargo, su llegada masiva al mercado doméstico posibilitó que un gran número de personas investigaran su funcionamiento y se interesaran por la programación. Con una VIC-20 se inició en la informática un joven finlandés-estadounidense llamado Linus Torvalds, quien años más tarde crearía el sistema operativo Linux.</p>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 Daniel Villarruel - Material Educativo - NTICx</p>
+</footer>
+
+</body>
+</html>

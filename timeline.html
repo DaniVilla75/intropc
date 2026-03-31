@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Línea de Tiempo Interactiva | Evolución de las Computadoras hasta 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #f0f4fa 0%, #e6edf4 100%);
+      color: #0a1c2a;
+      padding-bottom: 3rem;
+    }
+
+    .timeline-header {
+      background: linear-gradient(135deg, #0a2f44 0%, #0b3b4f 100%);
+      color: white;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border-radius: 0 0 2.5rem 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 15px 30px -10px rgba(0,0,0,0.2);
+    }
+
+    .timeline-header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .timeline-header p {
+      max-width: 700px;
+      margin: 0.8rem auto 0;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Generaciones sticky index */
+    .generation-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      padding: 1rem;
+      border-radius: 60px;
+      position: sticky;
+      top: 10px;
+      z-index: 20;
+    }
+
+    .gen-btn {
+      background: #1e4a6e;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      color: white;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .gen-btn:hover {
+      background: #ffaa33;
+      color: #1e2a3e;
+      transform: translateY(-2px);
+    }
+
+    /* Línea de tiempo estilo vertical cronológico */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, #2c7da0, #5fa8c9, #ffcd7e);
+      border-radius: 4px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+      background: white;
+      border-radius: 28px;
+      padding: 1.2rem 1.5rem;
+      box-shadow: 0 12px 24px -12px rgba(0,0,0,0.12);
+      transition: all 0.2s;
+      border: 1px solid #e0edf2;
+    }
+
+    .timeline-item:hover {
+      transform: translateX(6px);
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.2);
+    }
+
+    .timeline-marker {
+      position: absolute;
+      left: -38px;
+      top: 1.2rem;
+      width: 32px;
+      height: 32px;
+      background: #ffaa33;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 0 0 2px #2c7da0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #0a2f44;
+    }
+
+    .item-era {
+      display: inline-block;
+      background: #0a2f44;
+      color: white;
+      padding: 0.2rem 0.9rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+    }
+
+    .item-year {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #1f6390;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .item-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0.3rem 0;
+    }
+
+    .item-desc {
+      color: #2c3e4e;
+      margin: 0.6rem 0;
+    }
+
+    /* Tarjeta interactiva de pregunta */
+    .quiz-card {
+      background: #fef7e0;
+      border-radius: 20px;
+      padding: 1rem 1.2rem;
+      margin-top: 0.8rem;
+      border-left: 6px solid #ffaa33;
+      transition: 0.2s;
+    }
+
+    .quiz-question {
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .quiz-question i {
+      font-size: 1.2rem;
+      color: #e67e22;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin: 0.6rem 0;
+    }
+
+    .quiz-opt {
+      background: white;
+      border: 1px solid #d4d9e2;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.1s;
+      font-size: 0.9rem;
+    }
+
+    .quiz-opt:hover {
+      background: #eef2fa;
+      transform: scale(0.97);
+    }
+
+    .quiz-feedback {
+      font-size: 0.85rem;
+      margin-top: 0.4rem;
+      font-weight: 500;
+    }
+
+    .correct-feedback {
+      color: #1f7a3b;
+    }
+
+    .wrong-feedback {
+      color: #b13e3e;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: #5f7f9e;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 700px) {
+      .timeline {
+        padding-left: 1rem;
+      }
+      .timeline::before {
+        left: 8px;
+      }
+      .timeline-marker {
+        left: -26px;
+        width: 26px;
+        height: 26px;
+        font-size: 0.7rem;
+      }
+      .item-year {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="timeline-header">
+  <h1><i class="fas fa-timeline"></i> Evolución de las Computadoras | 1623 - 2026</h1>
+  <p>Línea de tiempo interactiva con generaciones tecnológicas y preguntas para conectar hitos con la historia mundial. ¡Explorá, respondé y aprendé!</p>
+</div>
+
+<div class="container">
+  <div class="generation-nav" id="genNav">
+    <button class="gen-btn" data-gen="pre">⚙️ Pre-generaciones</button>
+    <button class="gen-btn" data-gen="1">💾 1ª Generación</button>
+    <button class="gen-btn" data-gen="2">🔌 2ª Generación</button>
+    <button class="gen-btn" data-gen="3">🖥️ 3ª Generación</button>
+    <button class="gen-btn" data-gen="4">💻 4ª Generación</button>
+    <button class="gen-btn" data-gen="5">🌐 5ª Generación</button>
+    <button class="gen-btn" data-gen="6">🧠 6ª Generación (2020-2026+)</button>
+  </div>
+
+  <div class="timeline" id="timelineRoot">
+    <!-- Los elementos serán inyectados dinámicamente con JS para mejor mantenibilidad, pero también con datos completos -->
+  </div>
+  <footer>
+    <i class="fas fa-lightbulb"></i> Cada hito tiene una pregunta interactiva. Respondé para reflexionar sobre el contexto histórico mundial.
+  </footer>
+</div>
+
+<script>
+  // Datos completos: evolución detallada + generaciones + preguntas sobre hitos históricos
+  const timelineData = [
+    // Pre-generaciones / antecedentes
+    { year: "1623", title: "Máquina de calcular de Schickard", desc: "Wilhelm Schickard inventa la primera calculadora mecánica. Precursor de la computación.", generation: "pre", era: "🔹 Precursor", extraInfo: "Antes de la electrónica, dispositivos mecánicos.", question: { text: "¿Qué acontecimiento histórico mundial ocurrió en 1620 relacionado con peregrinajes?", options: ["Llegada del Mayflower a América", "Inicio de la Guerra de los Treinta Años", "Publicación de El Quijote"], correct: 0, explanation: "En 1620, el Mayflower llevó a los peregrinos ingleses a Plymouth, Massachusetts, un hito fundacional en EE.UU." } },
+    { year: "1837", title: "Máquina Analítica de Babbage", desc: "Charles Babbage diseña la primera computadora programable de la historia (concepto).", generation: "pre", era: "🔹 Diseño conceptual", question: { text: "¿Qué reinado marcaba la Época Victoriana en el mundo anglosajón hacia 1837?", options: ["Reina Victoria asciende al trono", "Revolución Industrial consolida ferrocarriles", "Independencia de Texas"], correct: 0, explanation: "Victoria se convirtió en reina del Reino Unido en 1837, iniciando la era victoriana." } },
+    { year: "1941", title: "Z3 de Konrad Zuse", desc: "Primera computadora electromecánica programable funcional. (Alemania)", generation: "1", era: "⚡ 1ª Generación (válvulas)", question: { text: "Contexto 1941: ¿Qué evento global transformó la geopolítica?", options: ["Ataque a Pearl Harbor", "Inicio de la Segunda Guerra Mundial (1939)", "Batalla de Stalingrado"], correct: 0, explanation: "En diciembre de 1941, Japón ataca Pearl Harbor, EE.UU. entra en la Segunda Guerra Mundial." } },
+    { year: "1946", title: "ENIAC", desc: "Primera computadora electrónica de propósito general (válvulas, 30 toneladas).", generation: "1", era: "💡 1ª Generación", question: { text: "¿Qué organización internacional se creó en 1945 justo antes de ENIAC?", options: ["ONU", "OTAN", "FMI"], correct: 0, explanation: "La ONU se fundó en 1945 tras la Segunda Guerra Mundial para promover la paz." } },
+    { year: "1951", title: "UNIVAC I", desc: "Primera computadora comercial masiva en EE.UU. predice elecciones.", generation: "1", era: "💡 1ª Generación", question: { text: "Guerra de Corea estalló en 1950-1953. ¿Qué presidente de EE.UU. enfrentó este conflicto?", options: ["Truman", "Eisenhower", "Kennedy"], correct: 0, explanation: "Harry S. Truman fue presidente al inicio de la Guerra de Corea (1950)." } },
+    { year: "1958", title: "Primer circuito integrado (Jack Kilby)", desc: "Nace el chip, base de la microelectrónica. Transición a 2da Generación.", generation: "2", era: "🔌 2ª Generación (transistores)", question: { text: "En 1957 la Unión Soviética lanza el Sputnik, iniciando la carrera espacial. ¿Qué agencia espacial crea EE.UU. en 1958?", options: ["NASA", "DARPA", "FAA"], correct: 0, explanation: "NASA se fundó en 1958 en respuesta al Sputnik." } },
+    { year: "1964", title: "IBM System/360", desc: "Familia de mainframes compatibles, domina la industria. 3ª Generación (circuitos integrados).", generation: "3", era: "🖥️ 3ª Generación (CI)", question: { text: "Movimiento por los derechos civiles: ¿Qué ley histórica se firmó en EE.UU. en 1964?", options: ["Civil Rights Act", "Voting Rights Act", "Ley de Inmigración"], correct: 0, explanation: "La Ley de Derechos Civiles de 1964 prohibió la segregación racial." } },
+    { year: "1971", title: "Intel 4004 - Primer microprocesador", desc: "CPU en un solo chip, nacimiento de la computadora personal. 4ª Generación.", generation: "4", era: "💻 4ª Generación (microprocesador)", question: { text: "Guerra de Vietnam: ¿Qué suceso masivo en 1971 con filtración de documentos?", options: ["Pentagon Papers", "Caída de Saigón", "Ofensiva del Tet"], correct: 0, explanation: "Los Pentagon Papers revelaron secretos sobre la guerra de Vietnam en 1971." } },
+    { year: "1977", title: "Apple II, Commodore PET, TRS-80", desc: "Las primeras microcomputadoras exitosas para el hogar.", generation: "4", era: "💻 4ª Generación", question: { text: "Cine y cultura: ¿Qué película de Star Wars se estrenó en 1977?", options: ["Una Nueva Esperanza", "El Imperio Contraataca", "El Retorno del Jedi"], correct: 0, explanation: "Star Wars: Episodio IV revolucionó el cine en 1977." } },
+    { year: "1981", title: "IBM PC", desc: "Estándar de la computadora personal con arquitectura abierta.", generation: "4", era: "💻 4ª Generación", question: { text: "¿Qué evento político marcó el intento de asesinato del presidente Reagan en 1981?", options: ["Atentado de John Hinckley Jr.", "Crisis de los rehenes en Irán", "Guerra de las Malvinas"], correct: 0, explanation: "El 30 de marzo de 1981, John Hinckley Jr. intentó asesinar a Ronald Reagan." } },
+    { year: "1991", title: "World Wide Web pública", desc: "Tim Berners-Lee lanza la web, internet masivo. 5ª Generación (redes, multimedia)", generation: "5", era: "🌐 5ª Generación (Internet)", question: { text: "Contexto mundial 1991: ¿Qué país se disolvió formalmente en diciembre?", options: ["Unión Soviética", "Yugoslavia", "Checoslovaquia"], correct: 0, explanation: "La URSS se disolvió en diciembre de 1991, fin de la Guerra Fría." } },
+    { year: "1998", title: "iMac G3 y auge de internet", desc: "Apple apuesta por diseño, explosión del comercio electrónico.", generation: "5", era: "🌐 5ª Generación", question: { text: "¿Qué empresa se fundó en 1998 por Larry Page y Sergey Brin?", options: ["Google", "Amazon", "Yahoo"], correct: 0, explanation: "Google fue fundada en septiembre de 1998." } },
+    { year: "2007", title: "iPhone - Revolución smartphone", desc: "Computación móvil táctil, convergencia total. Consolidación 5ª Gen.", generation: "5", era: "📱 Era móvil", question: { text: "Crisis financiera global: ¿Qué banco de inversión colapsó en 2008 (impacto 2007-2008)?", options: ["Lehman Brothers", "Bear Stearns", "Merrill Lynch"], correct: 0, explanation: "Lehman Brothers quebró en septiembre de 2008, desatando la crisis financiera." } },
+    { year: "2015", title: "Computación cuántica (primeros avances)", desc: "IBM, Google presentan procesadores cuánticos experimentales.", generation: "6", era: "🧠 6ª Generación (IA + Cuántica)", question: { text: "Acuerdo histórico sobre cambio climático: ¿Qué conferencia de la ONU en 2015?", options: ["Acuerdo de París", "Protocolo de Kioto", "Cumbre de Río"], correct: 0, explanation: "El Acuerdo de París fue adoptado en diciembre de 2015." } },
+    { year: "2020", title: "Exascale computing & IA Generativa", desc: "Supercomputadoras exaescala; modelos de lenguaje masivo (GPT-3).", generation: "6", era: "🧠 6ª Generación", question: { text: "Pandemia global: ¿Qué virus fue declarado pandemia por la OMS en marzo 2020?", options: ["COVID-19", "SARS", "H1N1"], correct: 0, explanation: "El COVID-19 fue declarado pandemia el 11 de marzo de 2020." } },
+    { year: "2023", title: "IA generativa masiva (ChatGPT, Gemini)", desc: "Inteligencia artificial de uso cotidiano, democratización de la IA.", generation: "6", era: "🧠 6ª Generación", question: { text: "Conflicto geopolítico: ¿Qué país invadió Ucrania en febrero de 2022 (impacto hasta 2023)?", options: ["Rusia", "Bielorrusia", "China"], correct: 0, explanation: "Rusia inició una invasión a gran escala de Ucrania en 2022, alterando el orden mundial." } },
+    { year: "2025", title: "Computación neuromórfica y chips 3D", desc: "Arquitecturas inspiradas en el cerebro humano, eficiencia extrema.", generation: "6", era: "🧠 6ª Generación (frontera)", question: { text: "Proyección 2025: ¿Qué misión de Artemis planea llevar humanos de regreso a la Luna?", options: ["Artemis III", "Artemis I", "Apolo 17"], correct: 0, explanation: "Artemis III tiene como objetivo 2025-2026 el alunizaje con astronautas." } },
+    { year: "2026", title: "Computadoras cuánticas de 1000+ qubits & IA autónoma", desc: "Integración cuántica+IA, dispositivos cuánticos en la nube masiva.", generation: "6", era: "🚀 Hacia el futuro", question: { text: "Bicentenario de naciones: 2026 representa 200 años de independencia de algunos países sudamericanos, ¿cuál celebra su bicentenario?", options: ["Bolivia / Perú", "Argentina (declaración 1816)", "Colombia"], correct: 1, explanation: "Argentina declaró su independencia en 1816, por lo que 2026 marca el bicentenario de la independencia (aunque conmemoraciones diversas). Relación histórica." } }
+  ];
+
+  // Definición de generaciones para colores/estilo
+  function getGenLabel(gen) {
+    const map = {
+      'pre': '🏛️ Precursor',
+      '1': '📟 1ª Generación (Válvulas)',
+      '2': '🔌 2ª Generación (Transistores)',
+      '3': '🧩 3ª Generación (Circuitos Integrados)',
+      '4': '💻 4ª Generación (Microprocesador)',
+      '5': '🌐 5ª Generación (Redes / Internet)',
+      '6': '🧠 6ª Generación (IA / Cuántica / Convergencia)'
+    };
+    return map[gen] || '⚙️ Evolución';
+  }
+
+  function renderTimeline() {
+    const container = document.getElementById('timelineRoot');
+    container.innerHTML = '';
+    timelineData.forEach((item, idx) => {
+      const timelineDiv = document.createElement('div');
+      timelineDiv.className = 'timeline-item';
+      timelineDiv.setAttribute('data-gen', item.generation);
+
+      const markerSpan = document.createElement('div');
+      markerSpan.className = 'timeline-marker';
+      markerSpan.innerHTML = '<i class="fas fa-microchip"></i>';
+
+      const eraSpan = `<span class="item-era">${getGenLabel(item.generation)} | ${item.era || ''}</span>`;
+      const yearHtml = `<div class="item-year">${item.year}</div>`;
+      const titleHtml = `<div class="item-title">${item.title}</div>`;
+      const descHtml = `<div class="item-desc">${item.desc} ${item.extraInfo ? '<br><small>' + item.extraInfo + '</small>' : ''}</div>`;
+
+      let quizHtml = '';
+      if (item.question) {
+        const q = item.question;
+        const uniqueId = `quiz-${idx}`;
+        quizHtml = `
+          <div class="quiz-card" id="${uniqueId}">
+            <div class="quiz-question"><i class="fas fa-globe-americas"></i> 🌍 Relación con historia mundial: <strong>${q.text}</strong></div>
+            <div class="quiz-options" data-quizid="${uniqueId}">
+              ${q.options.map((opt, optIdx) => `<div class="quiz-opt" data-optidx="${optIdx}">${opt}</div>`).join('')}
+            </div>
+            <div class="quiz-feedback" id="fb-${uniqueId}"></div>
+          </div>
+        `;
+      }
+
+      timelineDiv.innerHTML = `
+        ${markerSpan.outerHTML}
+        ${eraSpan}
+        ${yearHtml}
+        ${titleHtml}
+        ${descHtml}
+        ${quizHtml}
+      `;
+      container.appendChild(timelineDiv);
+    });
+
+    // Agregar event listeners a todas las opciones de quiz
+    document.querySelectorAll('.quiz-opt').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        const parentCard = opt.closest('.quiz-card');
+        if (!parentCard) return;
+        const quizId = parentCard.id;
+        const feedbackDiv = document.getElementById(`fb-${quizId}`);
+        const selectedIdx = parseInt(opt.getAttribute('data-optidx'));
+        // Encontrar el item de datos correspondiente
+        let foundItem = null;
+        for (let i = 0; i < timelineData.length; i++) {
+          if (parentCard.id === `quiz-${i}`) {
+            foundItem = timelineData[i];
+            break;
+          }
+        }
+        if (!foundItem || !foundItem.question) return;
+        const isCorrect = (selectedIdx === foundItem.question.correct);
+        if (isCorrect) {
+          feedbackDiv.innerHTML = `<i class="fas fa-check-circle"></i> ✅ ¡Correcto! ${foundItem.question.explanation}`;
+          feedbackDiv.className = 'quiz-feedback correct-feedback';
+        } else {
+          const correctAnswerText = foundItem.question.options[foundItem.question.correct];
+          feedbackDiv.innerHTML = `<i class="fas fa-times-circle"></i> ❌ Incorrecto. La respuesta correcta es: "${correctAnswerText}". ${foundItem.question.explanation}`;
+          feedbackDiv.className = 'quiz-feedback wrong-feedback';
+        }
+        // scroll suave sutil
+        feedbackDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
+  }
+
+  // Filtrar por generación
+  function filterByGeneration(gen) {
+    const items = document.querySelectorAll('.timeline-item');
+    items.forEach(item => {
+      const itemGen = item.getAttribute('data-gen');
+      if (gen === 'all' || itemGen === gen) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    // scroll al primer elemento visible
+    const firstVisible = document.querySelector('.timeline-item[style*="display: block"]');
+    if (firstVisible) {
+      firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // Setup navegación generacional
+  function setupNav() {
+    const genBtns = document.querySelectorAll('.gen-btn');
+    genBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const gen = btn.getAttribute('data-gen');
+        if (gen === 'pre') filterByGeneration('pre');
+        else if (gen === '1') filterByGeneration('1');
+        else if (gen === '2') filterByGeneration('2');
+        else if (gen === '3') filterByGeneration('3');
+        else if (gen === '4') filterByGeneration('4');
+        else if (gen === '5') filterByGeneration('5');
+        else if (gen === '6') filterByGeneration('6');
+        else filterByGeneration('all');
+      });
+    });
+    // Botón extra 'all' no necesario, pero por defecto mostramos todo
+    const resetBtn = document.createElement('button');
+    resetBtn.className = 'gen-btn';
+    resetBtn.textContent = '🎯 Mostrar toda la línea';
+    resetBtn.style.background = '#ffaa33';
+    resetBtn.style.color = '#1e2a3e';
+    resetBtn.addEventListener('click', () => filterByGeneration('all'));
+    document.getElementById('genNav').appendChild(resetBtn);
+  }
+
+  // Función para añadir generaciones explícitas con resumen
+  function addGenerationSummary() {
+    // Insertar un resumen al inicio después de la línea de tiempo? Pero preferimos que exista un item introductorio con generaciones.
+    // Ya están incluidas en cada hito; sin embargo agregamos un item adicional interactivo de "Generaciones"
+    const container = document.getElementById('timelineRoot');
+    const summaryDiv = document.createElement('div');
+    summaryDiv.className = 'timeline-item';
+    summaryDiv.style.background = "#eef2fc";
+    summaryDiv.setAttribute('data-gen', 'all');
+    summaryDiv.innerHTML = `
+      <div class="timeline-marker" style="background:#ffaa33;"><i class="fas fa-layer-group"></i></div>
+      <span class="item-era">📚 Resumen de generaciones</span>
+      <div class="item-year">Generaciones 1 a 6</div>
+      <div class="item-title">Clasificación tecnológica</div>
+      <div class="item-desc">
+        <strong>1G (1940-1956):</strong> Válvulas, tarjetas perforadas. <strong>2G (1956-1963):</strong> Transistores, lenguajes ensambladores.<br>
+        <strong>3G (1964-1971):</strong> Circuitos integrados, sistemas operativos. <strong>4G (1971-1990):</strong> Microprocesador, PC.<br>
+        <strong>5G (1990-2010):</strong> Internet masivo, dispositivos móviles. <strong>6G (2010-2026+):</strong> IA, computación cuántica, convergencia biotecnológica.
+      </div>
+      <div class="quiz-card">
+        <div class="quiz-question"><i class="fas fa-brain"></i> ¿Qué generación introdujo el microprocesador?</div>
+        <div class="quiz-options" id="quickGenQuiz">
+          <div class="quiz-opt" data-quick="4">4ª Generación</div>
+          <div class="quiz-opt" data-quick="3">3ª Generación</div>
+          <div class="quiz-opt" data-quick="5">5ª Generación</div>
+        </div>
+        <div class="quiz-feedback" id="quickGenFeedback"></div>
+      </div>
+    `;
+    container.insertBefore(summaryDiv, container.firstChild);
+    // event quick quiz
+    const quickOpts = summaryDiv.querySelectorAll('.quiz-opt');
+    quickOpts.forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        const fb = document.getElementById('quickGenFeedback');
+        const selected = opt.getAttribute('data-quick');
+        if (selected === '4') {
+          fb.innerHTML = '✅ Correcto! El Intel 4004 (1971) marcó la 4ª generación y la era de los microprocesadores.';
+          fb.className = 'quiz-feedback correct-feedback';
+        } else {
+          fb.innerHTML = '❌ No exactamente. La 4ª generación (microprocesador) es la respuesta correcta. Los circuitos integrados pertenecen a la 3G.';
+          fb.className = 'quiz-feedback wrong-feedback';
+        }
+      });
+    });
+  }
+
+  // Inicializar todo
+  renderTimeline();
+  addGenerationSummary();    // Añade resumen de generaciones al inicio
+  setupNav();
+  // Mostrar toda la línea por defecto
+  filterByGeneration('all');
+</script>
+</body>
+</html>
